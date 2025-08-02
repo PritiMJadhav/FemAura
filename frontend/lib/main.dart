@@ -20,6 +20,7 @@ class FemAuraApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/signup': (context) => SignUpScreen(),
+        '/homepage' : (context) => HomeScreen()
       },
     );
   }
