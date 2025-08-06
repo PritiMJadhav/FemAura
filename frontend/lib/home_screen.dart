@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,10 +13,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   late PageController _pageController;
+
   final List<String> _images = [
     'assets/slide1.png',
     'assets/slide2.png',
     'assets/slide3.png',
+    'assets/slide4.png',
+    'assets/slide5.png',
   ];
 
   @override
@@ -105,46 +109,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 20),
 
+                // Cards with gradient backgrounds
                 _wellnessCard(
                   title: 'Period Tracker',
                   subtitle: 'Track cycles, log period',
-                  cardColor: const Color(0xFFB86A87),
-                  buttonColor: const Color(0xFF9C3B5B),
+                  gradientColors: [Color(0xFFB86A87), Color(0xFF9C3B5B)],
+                  buttonColor: Color(0xFF9C3B5B),
                   buttonText: 'Log Now',
                 ),
                 _wellnessCard(
                   title: 'Calm Zone',
                   subtitle: 'Relax with meditation & music',
-                  cardColor: const Color(0xFFC6B8DC),
-                  buttonColor: const Color(0xFF8678B2),
+                  gradientColors: [Color(0xFFC6B8DC), Color(0xFF8678B2)],
+                  buttonColor: Color(0xFF8678B2),
                   buttonText: 'Explore',
                 ),
                 _wellnessCard(
                   title: 'Pregnancy',
                   subtitle: 'Baby Bump Diary',
-                  cardColor: const Color(0xFFE577C0),
-                  buttonColor: const Color(0xFFB61C9B),
+                  gradientColors: [Color(0xFFE577C0), Color(0xFFB61C9B)],
+                  buttonColor: Color(0xFFB61C9B),
                   buttonText: 'Open',
                 ),
                 _wellnessCard(
                   title: 'Relax & Play',
                   subtitle: 'Pop bubbles & fill colors to calm your mind',
-                  cardColor: const Color(0xFFE49E84),
-                  buttonColor: const Color(0xFFBF5740),
+                  gradientColors: [Color(0xFFE49E84), Color(0xFFBF5740)],
+                  buttonColor: Color(0xFFBF5740),
                   buttonText: 'Play Now',
                 ),
                 _wellnessCard(
                   title: 'Yoga',
                   subtitle: 'Poses for pregnancy & period relief',
-                  cardColor: const Color(0xFF90CBC9),
-                  buttonColor: const Color(0xFF50A1A1),
+                  gradientColors: [Color(0xFFB1BFF4), Color(0xFF969CED)],
+                  buttonColor: Color(0xFF6387C6),
                   buttonText: 'Explore',
                 ),
                 _wellnessCard(
                   title: 'Nutrition & Remedies',
                   subtitle: 'Healthy diet & remedies',
-                  cardColor: const Color(0xFF98DB7E),
-                  buttonColor: const Color(0xFF4BB14B),
+                  gradientColors: [Color(0xFFAED1AF), Color(0xFF82BC85)],
+                  buttonColor: Color(0xFF4BB14B),
                   buttonText: 'Check Now',
                 ),
               ],
@@ -155,10 +160,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Modified _wellnessCard widget with gradient and custom font
   Widget _wellnessCard({
     required String title,
     required String subtitle,
-    required Color cardColor,
+    required List<Color> gradientColors,
     required Color buttonColor,
     required String buttonText,
   }) {
@@ -166,7 +172,11 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: cardColor.withOpacity(0.85),
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -175,9 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
               color: Colors.white,
+              fontFamily: 'PlayfairDisplay', // Custom font
             ),
           ),
           const SizedBox(height: 5),
