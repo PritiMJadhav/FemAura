@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-
+import 'package:frontend/period_tracker.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -116,7 +115,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   gradientColors: [Color(0xFFB86A87), Color(0xFF9C3B5B)],
                   buttonColor: Color(0xFF9C3B5B),
                   buttonText: 'Log Now',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PeriodTrackerPage()),
+                    );
+                  },
                 ),
+
                 _wellnessCard(
                   title: 'Calm Zone',
                   subtitle: 'Relax with meditation & music',
@@ -160,13 +166,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Modified _wellnessCard widget with gradient and custom font
+  // _wellnessCard widget
   Widget _wellnessCard({
     required String title,
     required String subtitle,
     required List<Color> gradientColors,
     required Color buttonColor,
     required String buttonText,
+    VoidCallback? onTap,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
@@ -188,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Colors.white,
-              fontFamily: 'PlayfairDisplay', // Custom font
+              fontFamily: 'PlayfairDisplay',
             ),
           ),
           const SizedBox(height: 5),
@@ -203,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onTap, // ← FIXED HERE
               style: ElevatedButton.styleFrom(
                 backgroundColor: buttonColor,
                 foregroundColor: Colors.white,
