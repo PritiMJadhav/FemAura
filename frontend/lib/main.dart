@@ -24,7 +24,7 @@ class FemAuraApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/signup': (context) => SignUpScreen(),
         '/homepage' : (context) => HomeScreen(),
-        '/period_tracker': (context) => PeriodTrackerPage()
+        '/period_tracker': (context) => PeriodTrackerPage ()
       },
     );
   }
