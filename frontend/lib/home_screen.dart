@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:frontend/calm_zone.dart';
 import 'package:frontend/period_tracker.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -129,6 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   gradientColors: [Color(0xFFC6B8DC), Color(0xFF8678B2)],
                   buttonColor: Color(0xFF8678B2),
                   buttonText: 'Explore',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  CalmZonePage()),
+                    );
+                  },
+
                 ),
                 _wellnessCard(
                   title: 'Pregnancy',
