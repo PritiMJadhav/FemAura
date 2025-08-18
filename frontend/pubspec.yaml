@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.18.0
   shared_preferences: ^2.2.2
   fl_chart: ^0.68.0
+  audioplayers: ^5.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -69,14 +70,17 @@ flutter:
    - assets/slide3.png
    - assets/slide4.png
    - assets/slide5.png
-   - assets/calender.png
    - assets/profile.png
-   
+   - assets/audio/meditation1.mp3
+   - assets/audio/meditation2.mp3
+   - assets/audio/calm1.mp3
+   - assets/audio/calm2.mp3
+   - assets/morning.jpg
+   - assets/evening.jpg
+   - assets/music1.jpg
+   - assets/music2.jpg
 
-
-  
-
-  # An image asset can refer to one or more resolution-specific "variants", see
+     # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
   # For details regarding adding assets from package dependencies, see

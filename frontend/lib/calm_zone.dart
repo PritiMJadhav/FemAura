@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'PlayerScreen.dart';
 
 class CalmZonePage extends StatefulWidget {
   @override
@@ -8,133 +9,127 @@ class CalmZonePage extends StatefulWidget {
 
 class _CalmZonePageState extends State<CalmZonePage>
     with SingleTickerProviderStateMixin {
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  String _currentlyPlaying = '';
-  bool _isPlaying = false;
+  late TabController _tabController;
 
-  late AnimationController _animationController;
-  late Animation<Color?> _colorAnimation1;
-  late Animation<Color?> _colorAnimation2;
+  // Shared AudioPlayer
+  static final AudioPlayer _audioPlayer = AudioPlayer();
+  String? _currentlyPlaying;
 
   @override
   void initState() {
     super.initState();
-
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 8))
-          ..repeat(reverse: true);
-
-    _colorAnimation1 = ColorTween(
-      begin: Colors.pink.shade50,
-      end: Colors.purple.shade50,
-    ).animate(_animationController);
-
-    _colorAnimation2 = ColorTween(
-      begin: Colors.blue.shade50,
-      end: Colors.teal.shade50,
-    ).animate(_animationController);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  Future<void> _playAudio(String fileName) async {
-    if (_currentlyPlaying == fileName && _isPlaying) {
-      await _audioPlayer.pause();
-      setState(() => _isPlaying = false);
-    } else {
-      await _audioPlayer.play(AssetSource('audio/$fileName'));
+  Future<void> _playAudio(String file) async {
+    if (_currentlyPlaying == file) {
+      await _audioPlayer.stop();
       setState(() {
-        _currentlyPlaying = fileName;
-        _isPlaying = true;
+        _currentlyPlaying = null;
+      });
+    } else {
+      await _audioPlayer.stop();
+      await _audioPlayer.play(AssetSource(file));
+      setState(() {
+        _currentlyPlaying = file;
       });
     }
   }
 
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  Widget _buildTrackCard(String title, String description, String fileName) {
-    bool isPlaying = _currentlyPlaying == fileName && _isPlaying;
-
+  Widget _buildTrackCard(
+      String title, String subtitle, String file, String img) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: ListTile(
-        contentPadding: EdgeInsets.all(16),
-        title: Text(title,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.pink.shade800)),
-        subtitle: Text(description),
-        trailing: IconButton(
-          icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle,
-              color: Colors.pink, size: 36),
-          onPressed: () => _playAudio(fileName),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(img, width: 50, height: 50, fit: BoxFit.cover),
         ),
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle),
+        trailing: IconButton(
+          icon: Icon(
+            _currentlyPlaying == file ? Icons.pause_circle : Icons.play_circle,
+            color: Colors.deepPurple,
+            size: 32,
+          ),
+          onPressed: () => _playAudio(file),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PlayerScreen(
+                title: title,
+                description: subtitle,
+                fileName: file,
+                image: img,
+                audioPlayer: _audioPlayer, // ✅ now works
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, _) {
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _colorAnimation1.value ?? Colors.pink.shade50,
-                _colorAnimation2.value ?? Colors.blue.shade50,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Calm Zone"),
+        backgroundColor: Colors.deepPurple.shade100,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.deepPurple,
+          labelColor: Colors.deepPurple,
+          unselectedLabelColor: Colors.black54,
+          tabs: [
+            Tab(text: "Meditation Music"),
+            Tab(text: "Calm Music"),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          // Meditation Section
+          ListView(
+            children: [
+              _buildTrackCard(
+                  "Morning Mindfulness",
+                  "Start your day with clarity",
+                  "audio/meditation1.mp3",
+                  "assets/morning.jpg"),
+              _buildTrackCard("Evening Relaxation", "Wind down and relax",
+                  "audio/meditation2.mp3", "assets/evening.jpg"),
+            ],
           ),
-          child: DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                title: Text('Calm Zone', style: TextStyle(color: Colors.pink)),
-                backgroundColor: Colors.white,
-                bottom: TabBar(
-                  labelColor: Colors.pink,
-                  unselectedLabelColor: Colors.grey,
-                  tabs: [
-                    Tab(icon: Icon(Icons.self_improvement), text: 'Meditation'),
-                    Tab(icon: Icon(Icons.music_note), text: 'Calm Music'),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: [
-                  // Meditation Tab
-                  ListView(
-                    children: [
-                      _buildTrackCard("Morning Mindfulness",
-                          "Start your day with clarity", "meditation1.mp3"),
-                      _buildTrackCard("Evening Relaxation",
-                          "Wind down and relax", "meditation2.mp3"),
-                    ],
-                  ),
-                  // Calm Music Tab
-                  ListView(
-                    children: [
-                      _buildTrackCard("Ocean Waves",
-                          "Gentle ocean sounds for deep relaxation", "music1.mp3"),
-                      _buildTrackCard("Rain & Thunder",
-                          "Soothing rain with distant thunder", "music2.mp3"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          // Calm Music Section
+          ListView(
+            children: [
+              _buildTrackCard("Soothing Piano", "Relax with soft piano melodies",
+                  "audio/calm1.mp3", "assets/music1.jpg"),
+              _buildTrackCard("Ocean Waves", "Feel the calmness of the sea",
+                  "audio/calm2.mp3", "assets/music2.jpg"),
+            ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }
