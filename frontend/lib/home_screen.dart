@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/calm_zone.dart';
 import 'package:frontend/period_tracker.dart';
+import 'package:frontend/BumpBook.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -139,11 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ),
                 _wellnessCard(
-                  title: 'Pregnancy',
-                  subtitle: 'Baby Bump Diary',
+                  title: 'Bump Book',
+                  subtitle: 'Keep track of your beautiful pregnancy journey',
                   gradientColors: [Color(0xFFE577C0), Color(0xFFB61C9B)],
                   buttonColor: Color(0xFFB61C9B),
                   buttonText: 'Open',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Bumpbook()),
+                    );
+                  },
                 ),
                 _wellnessCard(
                   title: 'Relax & Play',
