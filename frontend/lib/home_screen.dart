@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/calm_zone.dart';
 import 'package:frontend/period_tracker.dart';
 import 'package:frontend/BumpBook.dart';
+import 'package:frontend/profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -72,14 +73,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/profile.png'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfilePage()), // your ProfilePage
+                        );
+                      },
+                      child: const CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage('assets/Profile.jpg'),
+                      ),
                     ),
                     Image.asset('assets/logo.png', height: 40),
                     const Icon(Icons.notifications_outlined, color: Color(0xFFD10C6A)),
                   ],
                 ),
+
                 const SizedBox(height: 20),
 
                 // Image Carousel
