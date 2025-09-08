@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -21,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    // Lotus logo expand animation
     _logoController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -30,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
     );
 
-    // Text fade-in animation
     _textController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -41,8 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _logoController.forward().then((_) => _textController.forward());
 
-    // Timer to navigate after splash
-    _timer = Timer(const Duration(seconds: 5), () async {
+    _timer = Timer(const Duration(seconds: 3), () async {
       if (!mounted) return;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
@@ -98,8 +97,8 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                     child: Image.asset(
-                      'assets/logo.png', // Put lotus image here
-                      width: 150, // Final size after expand
+                      'assets/logo.png',
+                      width: 150,
                     ),
                   ),
                 ),

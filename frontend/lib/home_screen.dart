@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile.dart'; // ✅ Import Profile Page
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,21 +14,35 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top Row
+              // ✅ Top Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage: AssetImage('assets/profile.png'), // Placeholder
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilePage(),
+                        ),
+                      );
+                    },
+                    child: const CircleAvatar(
+                      radius: 25,
+                      backgroundImage: AssetImage('assets/Profile.jpg'),
+                    ),
                   ),
                   Image.asset(
                     'assets/logo.png',
                     height: 40,
                   ),
-                  Icon(Icons.notifications_outlined, color: Colors.pink.shade300)
+                  Icon(
+                    Icons.notifications_outlined,
+                    color: Colors.pink.shade300,
+                  ),
                 ],
               ),
+
               const SizedBox(height: 30),
 
               const Text(
@@ -50,6 +65,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
+              // ✅ Wellness Cards
               _wellnessCard(
                 title: 'Period Tracker',
                 subtitle: 'Track cycles, log period',
@@ -93,6 +109,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // ✅ Wellness Card Widget
   Widget _wellnessCard({
     required String title,
     required String subtitle,
@@ -129,11 +146,14 @@ class HomeScreen extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // 👉 TODO: Add navigation for each card here later
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: color,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
