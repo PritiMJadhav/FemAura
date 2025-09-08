@@ -13,6 +13,8 @@ void main() {
 class FemAuraApp extends StatelessWidget {
   const FemAuraApp({super.key});
 
+  const FemAuraApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

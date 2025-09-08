@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'signup_screen.dart'; // Navigation to sign-up
+import 'home_screen.dart'; // Navigation to home screen
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -17,14 +17,14 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
+        height: screenHeight,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFF8D6E0),
-              Color(0xFF9F5B77),
-            ],
+            colors: [Color(0xFFFFDFDF), Color(0xFFFFA1B2)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -69,7 +69,14 @@ class LoginScreen extends StatelessWidget {
                       backgroundColor: const Color(0xFF9F5B77),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text('Login', style: TextStyle(color: Colors.white)),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

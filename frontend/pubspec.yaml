@@ -5,13 +5,22 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: ">=3.3.0 <4.0.0"
+
 
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.18.0
   shared_preferences: ^2.2.2
+  fl_chart: ^0.68.0
+  audioplayers: ^5.2.1
+  turn_page_transition: ^0.5.0
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  image_picker: ^1.2.0
   percent_indicator: ^4.2.5
   intl: ^0.19.0
   image_picker: ^1.1.2   # ✅ added for picking images
@@ -25,5 +34,49 @@ flutter:
   uses-material-design: true
 
   assets:
+   - assets/logo.png
+   - assets/slide1.png
+   - assets/slide2.png
+   - assets/slide3.png
+   - assets/slide4.png
+   - assets/slide5.png
+   - assets/profile.png
+   - assets/audio/meditation1.mp3
+   - assets/audio/meditation2.mp3
+   - assets/audio/calm1.mp3
+   - assets/audio/calm2.mp3
+   - assets/morning.jpg
+   - assets/evening.jpg
+   - assets/music1.jpg
+   - assets/music2.jpg
+   - assets/Baby_Bump.png
+
+     # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       
+  #         weight: 700
+ 
+
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
+
     - assets/logo.png
     - assets/Profile.jpg

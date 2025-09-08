@@ -32,6 +32,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         constraints: const BoxConstraints.expand(),
