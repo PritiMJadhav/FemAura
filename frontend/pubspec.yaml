@@ -34,6 +34,7 @@ flutter:
   uses-material-design: true
 
   assets:
+   - assets/Profile.jpg
    - assets/logo.png
    - assets/slide1.png
    - assets/slide2.png
@@ -78,5 +79,4 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
-    - assets/logo.png
-    - assets/Profile.jpg
+    

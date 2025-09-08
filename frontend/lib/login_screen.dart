@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart'; // Navigation to sign-up
 import 'home_screen.dart'; // Navigation to home screen
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  LoginScreen({super.key});
 
   Future<void> login(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,13 +69,13 @@ class LoginScreen extends StatelessWidget {
                       backgroundColor: const Color(0xFF9F5B77),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                  ),
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
