@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   
+  assets_audio_player: ^3.0.6
+
   shared_preferences: ^2.2.2
   fl_chart: ^0.68.0
   audioplayers: ^5.2.1
@@ -29,7 +31,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
+ 
+  confetti: ^0.7.0
 flutter:
   uses-material-design: true
 
@@ -51,6 +54,22 @@ flutter:
    - assets/music1.jpg
    - assets/music2.jpg
    - assets/Baby_Bump.png
+   - assets/bubble_game/images/game_bg.jpg
+   - assets/bubble_game/images/start_bg.jpg
+   - assets/bubble_game/sounds/calm_bg.mp3    
+   - assets/bubble_game/sounds/tap.mp3
+   - assets/common/puzzle_icon.png
+   - assets/common/bubble_icon.png
+   - assets/common/menu_bg.jpg
+    
+  
+   - assets/puzzle_game/manifest.json
+   - assets/puzzle_game/images/easy/
+   - assets/puzzle_game/images/medium/
+   - assets/puzzle_game/images/hard/
+
+   - assets/puzzle_game/sounds/click.mp3
+   - assets/puzzle_game/sounds/loop.mp3
 
      # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -63,17 +82,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       
-  #         weight: 700
+  fonts:
+    - family: Quicksand
+      fonts:
+        - asset: assets/bubble_game/fonts/Quicksand-Regular.ttf
+          weight: 400
+        - asset: assets/bubble_game/fonts/Quicksand-Medium.ttf
+          weight: 500
+        - asset: assets/bubble_game/fonts/Quicksand-SemiBold.ttf
+          weight: 600
+        - asset: assets/bubble_game/fonts/Quicksand-Bold.ttf
+          weight: 700
  
 
   # For details regarding fonts from package dependencies,

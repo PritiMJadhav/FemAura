@@ -1,0 +1,5 @@
+{
+  "easy": ["images/easy/easy1.png", "images/easy/easy2.png", "images/easy/easy3.png", "images/easy/easy4.png"],
+  "medium": ["images/medium/medium1.jpg", "images/medium/medium2.jpg", "images/medium/medium3.jpg", "images/medium/medium4.jpg"],
+  "hard": ["images/hard/hard1.jpg", "images/hard/hard2.jpg", "images/hard/hard3.jpg", "images/hard/hard4.jpg"]
+}
