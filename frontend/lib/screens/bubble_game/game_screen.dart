@@ -212,49 +212,39 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
     const int thoughtPoints = 10;
     const int distractionPenalty = 5;
 
-    if (distractionWords.contains(word)) {
-      setState(() {
-        score = max(0, score - distractionPenalty);
-      });
+   if (distractionWords.contains(word)) {
+  setState(() {
+    score = max(0, score - distractionPenalty);
+  });
 
-      timer.cancel();
-      stopBackgroundMusic();
+  // Instead of canceling, just pause
+  isPaused = true;
+  bgPlayer.pause();
+  timer.cancel(); // <- optional, but you can restart later
 
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => AlertDialog(
-          backgroundColor: Colors.purple.shade50,
-          title: const Text(
-            "🌀 Distraction!",
-            style: TextStyle(
-              color: Colors.purple,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          content: const Text(
-            "Oops! That was a distraction bubble.\nYou lost 5 points.\nBreathe & try again.",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                resetGame();
-              },
-              child: const Text(
-                "Play Again",
-                style: TextStyle(fontWeight: FontWeight.w700),
-              ),
-            )
-          ],
-        ),
-      );
-      return;
-    }
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => AlertDialog(
+      backgroundColor: Colors.purple.shade50,
+      title: const Text("🌀 Distraction!"),
+      content: const Text(
+        "Oops! That was a distraction bubble.\nYou lost 5 points.\nBreathe & try again.",
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            resetGame(); // restarts timer + music cleanly
+          },
+          child: const Text("Play Again"),
+        )
+      ],
+    ),
+  );
+  return;
+}
+
 
     setState(() {
       tapped.add(word); // bubble disappears
