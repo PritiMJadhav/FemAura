@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/calm_zone.dart';
 import 'package:frontend/period_tracker.dart';
 import 'package:frontend/BumpBook.dart';
+import 'screens/main_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -158,6 +159,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   gradientColors: [Color(0xFFE49E84), Color(0xFFBF5740)],
                   buttonColor: Color(0xFFBF5740),
                   buttonText: 'Play Now',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainMenu()),
+                    );
+                  },
                 ),
                 _wellnessCard(
                   title: 'Yoga',
