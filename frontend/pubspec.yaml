@@ -54,6 +54,16 @@ flutter:
    - assets/music1.jpg
    - assets/music2.jpg
    - assets/Baby_Bump.png
+   - assets/Ardha Matsyendrasana.png
+   - assets/Eka Pada Rajakapotasana.png
+   - assets/Halasana.png
+   - assets/Niravalasana.png
+   - assets/Supta Matsyendrasana.png
+   - assets/Sukhasana.png
+   - assets/Seated Side Stretch.png
+   - assets/Parighasana.png
+   - assets/Setu Bandhasana.png
+   - assets/Supported Bridge.png
    - assets/bubble_game/images/game_bg.jpg
    - assets/bubble_game/images/start_bg.jpg
    - assets/bubble_game/sounds/calm_bg.mp3    
@@ -61,13 +71,10 @@ flutter:
    - assets/common/puzzle_icon.png
    - assets/common/bubble_icon.png
    - assets/common/menu_bg.jpg
-    
-  
    - assets/puzzle_game/manifest.json
    - assets/puzzle_game/images/easy/
    - assets/puzzle_game/images/medium/
    - assets/puzzle_game/images/hard/
-
    - assets/puzzle_game/sounds/click.mp3
    - assets/puzzle_game/sounds/loop.mp3
 

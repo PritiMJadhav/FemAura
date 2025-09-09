@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:frontend/NutritionRemedies.dart';
+import 'package:frontend/YogaPose.dart';
 import 'package:frontend/calm_zone.dart';
 import 'package:frontend/period_tracker.dart';
 import 'package:frontend/BumpBook.dart';
@@ -182,6 +184,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   gradientColors: [Color(0xFFB1BFF4), Color(0xFF969CED)],
                   buttonColor: Color(0xFF6387C6),
                   buttonText: 'Explore',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => YogaPage()),
+                    );
+                  },
                 ),
                 _wellnessCard(
                   title: 'Nutrition & Remedies',
@@ -189,6 +197,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   gradientColors: [Color(0xFFAED1AF), Color(0xFF82BC85)],
                   buttonColor: Color(0xFF4BB14B),
                   buttonText: 'Check Now',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  NutritionRemediesPage()),
+                    );
+                  },
                 ),
               ],
             ),
