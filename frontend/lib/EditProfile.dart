@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -14,6 +16,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
+  final String backendUrl = "http://127.0.0.1:5000"; // 👈 Change if needed
+
   @override
   void initState() {
     super.initState();
@@ -22,23 +26,67 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> _loadProfileData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _nameController.text = prefs.getString("name") ?? "";
-      _ageController.text = prefs.getString("age") ?? "";
-      _emailController.text = prefs.getString("email") ?? "";
-    });
+    final email = prefs.getString("email") ?? "";
+
+    if (email.isEmpty) return;
+
+    // Load profile data from backend
+    final response = await http.get(Uri.parse("$backendUrl/profile/$email"));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final user = data["user"];
+      setState(() {
+        _nameController.text = user["name"] ?? "";
+        _emailController.text = user["email"] ?? "";
+        _ageController.text = user["age"]?.toString() ?? "";
+      });
+    } else {
+      // fallback: load from local prefs
+      setState(() {
+        _nameController.text = prefs.getString("name") ?? "";
+        _ageController.text = prefs.getString("age") ?? "";
+        _emailController.text = prefs.getString("email") ?? "";
+      });
+    }
   }
 
   Future<void> _saveProfileData() async {
-    if (_formKey.currentState!.validate()) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("name", _nameController.text);
-      await prefs.setString("age", _ageController.text);
-      await prefs.setString("email", _emailController.text);
+    if (!_formKey.currentState!.validate()) return;
 
-      Navigator.pop(context);
+    final data = {
+      "email": _emailController.text.trim(),
+      "name": _nameController.text.trim(),
+      "age": _ageController.text.trim(),
+    };
+
+    final response = await http.post(
+      Uri.parse("$backendUrl/profile/update"),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(data),
+    );
+
+    if (response.statusCode == 200) {
+      final res = json.decode(response.body);
+
+      if (res["success"] == true) {
+        // Save locally too
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("name", _nameController.text);
+        await prefs.setString("age", _ageController.text);
+        await prefs.setString("email", _emailController.text);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Profile updated successfully!")),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(res["message"] ?? "Update failed")),
+        );
+      }
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Profile updated successfully!")),
+        const SnackBar(content: Text("Failed to connect to server")),
       );
     }
   }
@@ -86,16 +134,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ],
                   ),
                   const SizedBox(height: 25),
-
-                  // ✅ Circular avatar with thin border
                   Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFE69E85),
-                          Color(0xFFB86A87),
-                        ],
+                        colors: [Color(0xFFE69E85), Color(0xFFB86A87)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -107,13 +150,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(2), // thin border
+                    padding: const EdgeInsets.all(2),
                     child: const CircleAvatar(
                       radius: 70,
                       backgroundImage: AssetImage("assets/Profile.jpg"),
                     ),
                   ),
-
                   const SizedBox(height: 30),
                   _buildTextField(
                     controller: _nameController,
@@ -134,12 +176,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     controller: _emailController,
                     label: "Email",
                     keyboardType: TextInputType.emailAddress,
-                    validator: (val) => val != null && val.contains("@")
-                        ? null
-                        : "Enter valid email",
+                    validator: (val) =>
+                        val != null && val.contains("@")
+                            ? null
+                            : "Enter valid email",
                   ),
                   const SizedBox(height: 40),
-
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

@@ -59,12 +59,10 @@ class _PeriodTrackerPageState extends State<PeriodTrackerPage>
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        _lastPeriodController.text = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
+    setState(() {
+      _selectedDate = picked;
+      _lastPeriodController.text = DateFormat('dd-MM-yyyy').format(picked!);
+    });
   }
 
   void _calculatePeriod() {
@@ -207,8 +205,8 @@ class _PeriodTrackerPageState extends State<PeriodTrackerPage>
             const SizedBox(height: 22),
             _buildLabeledInput("Enter Age :", _ageController, Icons.cake),
             const SizedBox(height: 14),
-            _buildLabeledInput(
-                "Average Length of cycle :", _cycleLengthController, Icons.loop),
+            _buildLabeledInput("Average Length of cycle :",
+                _cycleLengthController, Icons.loop),
             const SizedBox(height: 14),
             GestureDetector(
               onTap: _pickDate,
@@ -379,8 +377,8 @@ class _PeriodTrackerPageState extends State<PeriodTrackerPage>
                         fontWeight: FontWeight.bold)),
                 const SizedBox(height: 6),
                 Text(value,
-                    style:
-                        TextStyle(fontSize: 15, color: textColor.withOpacity(0.9))),
+                    style: TextStyle(
+                        fontSize: 15, color: textColor.withOpacity(0.9))),
               ],
             ),
           ),
@@ -453,7 +451,8 @@ class AnimatedOvulationPainter extends CustomPainter {
     final fullCircle = 2 * Math.pi;
 
     // compute days for each segment
-    final int fertileDays = (fertileEndDay - fertileStartDay + 1).clamp(0, cycleLength);
+    final int fertileDays =
+        (fertileEndDay - fertileStartDay + 1).clamp(0, cycleLength);
     int remainingDays = cycleLength - (periodDays + pmsDays + fertileDays);
     if (remainingDays < 0) remainingDays = 0;
 
@@ -471,7 +470,8 @@ class AnimatedOvulationPainter extends CustomPainter {
       _Seg(start, pmsSweep, Colors.orangeAccent),
       _Seg(start + pmsSweep, periodSweep, Colors.pinkAccent),
       _Seg(start + pmsSweep + periodSweep, fertileSweep, Colors.green),
-      _Seg(start + pmsSweep + periodSweep + fertileSweep, remainingSweep, Colors.grey.shade300),
+      _Seg(start + pmsSweep + periodSweep + fertileSweep, remainingSweep,
+          Colors.grey.shade300),
     ];
 
     final paint = Paint()
@@ -492,7 +492,8 @@ class AnimatedOvulationPainter extends CustomPainter {
         canvas.drawArc(Rect.fromCircle(center: center, radius: radius),
             seg.start, segSweep, false, paint);
       } else {
-        final drawThis = remainingToDraw >= segSweep ? segSweep : remainingToDraw;
+        final drawThis =
+            remainingToDraw >= segSweep ? segSweep : remainingToDraw;
         // base faint arc
         paint.color = seg.color.withOpacity(0.12);
         canvas.drawArc(Rect.fromCircle(center: center, radius: radius),

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'puzzle_game.dart';
+import '../main_menu.dart'; // import MainMenu
 
 class PuzzleHomeScreen extends StatefulWidget {
   const PuzzleHomeScreen({super.key});
@@ -56,8 +57,9 @@ class _PuzzleHomeScreenState extends State<PuzzleHomeScreen> {
 
   void _startGame(String difficulty, int gridSize) {
     final allImages = puzzleImages[difficulty]!;
-    final unsolvedImages =
-        allImages.where((img) => !solvedPuzzles[difficulty]!.contains(img)).toList();
+    final unsolvedImages = allImages
+        .where((img) => !solvedPuzzles[difficulty]!.contains(img))
+        .toList();
 
     if (unsolvedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -66,7 +68,8 @@ class _PuzzleHomeScreenState extends State<PuzzleHomeScreen> {
       return;
     }
 
-    final selectedImage = unsolvedImages[Random().nextInt(unsolvedImages.length)];
+    final selectedImage =
+        unsolvedImages[Random().nextInt(unsolvedImages.length)];
 
     Navigator.push(
       context,
@@ -77,112 +80,165 @@ class _PuzzleHomeScreenState extends State<PuzzleHomeScreen> {
           imagePath: selectedImage,
           onSolved: () async {
             await _loadSolvedPuzzles();
-            setState(() {}); // Refresh progress
+            setState(() {});
           },
         ),
       ),
     );
   }
 
-  Widget _difficultyButton(String text, Color bgColor, String difficulty, int gridSize) {
-    return _hoverButton(text, () => _startGame(difficulty, gridSize), bgColor);
-  }
-
-  Widget _hoverButton(String text, VoidCallback onTap, Color bgColor) {
-    return StatefulBuilder(
-      builder: (context, setHoverState) {
-        bool isHovered = false;
-        return MouseRegion(
-          onEnter: (_) => setHoverState(() => isHovered = true),
-          onExit: (_) => setHoverState(() => isHovered = false),
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: onTap,
-            child: AnimatedScale(
-              scale: isHovered ? 1.05 : 1.0,
-              duration: const Duration(milliseconds: 120),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    text,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+  Widget _puzzleCard({
+    required String title,
+    required String subtitle,
+    required List<Color> gradientColors,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.all(22),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        );
-      },
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.18),
+              blurRadius: 10,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  fontFamily: 'PlayfairDisplay',
+                )),
+            const SizedBox(height: 8),
+            Text(subtitle,
+                style: const TextStyle(fontSize: 16, color: Colors.white70)),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade200,
-        centerTitle: true,
-        title: const Text(
-          "Self-Care Puzzle",
-          style: TextStyle(fontWeight: FontWeight.w700),
+      body: Container(
+        height: screenHeight,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFDFDF), Color(0xFFFA96A8)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.spa, size: 70, color: Colors.blue),
-            const SizedBox(height: 15),
-            const Text(
-              "🧩 Welcome to the Self-Care Puzzle!",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            child: Column(
+              children: [
+                // Back Button
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon:
+                        const Icon(Icons.arrow_back_ios, color: Colors.black87),
+                    onPressed: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) => const MainMenu()));
+                    },
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                // Header
+                Column(
+                  children: const [
+                    Text(
+                      "🧩 Self-Care Puzzle",
+                      style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'PlayfairDisplay'),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Pick a difficulty and challenge yourself with relaxing puzzles.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.black87),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 25),
+
+                // Scrollable Cards
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _puzzleCard(
+                          title:
+                              "🌱 Easy (3x3) - ${solvedPuzzles["easy"]?.length ?? 0}/${puzzleImages["easy"]!.length}",
+                          subtitle: "Beginner-friendly relaxing puzzle",
+                          gradientColors: [
+                            Color(0xFFB86A87),
+                            Color(0xFF9C3B5B)
+                          ],
+                          onTap: () => _startGame("easy", 3),
+                        ),
+                        _puzzleCard(
+                          title:
+                              "🌿 Medium (4x4) - ${solvedPuzzles["medium"]?.length ?? 0}/${puzzleImages["medium"]!.length}",
+                          subtitle: "Moderate challenge for focused mind",
+                          gradientColors: [
+                            Color(0xFFC6B8DC),
+                            Color(0xFF8678B2)
+                          ],
+                          onTap: () => _startGame("medium", 4),
+                        ),
+                        _puzzleCard(
+                          title:
+                              "🌸 Hard (5x5) - ${solvedPuzzles["hard"]?.length ?? 0}/${puzzleImages["hard"]!.length}",
+                          subtitle: "Expert-level puzzle for concentration",
+                          gradientColors: [
+                            Color(0xFFE577C0),
+                            Color(0xFFB61C9B)
+                          ],
+                          onTap: () => _startGame("hard", 5),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          "🧩 Relax, have fun & enjoy your self-care puzzle journey!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            const Text(
-              "Pick a difficulty level and test your skills by completing a relaxing puzzle.",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 30),
-            _difficultyButton(
-              "🌱 Easy (3x3) - ${solvedPuzzles["easy"]?.length ?? 0}/${puzzleImages["easy"]!.length}",
-              Colors.green.shade400,
-              "easy",
-              3,
-            ),
-            _difficultyButton(
-              "🌿 Medium (4x4) - ${solvedPuzzles["medium"]?.length ?? 0}/${puzzleImages["medium"]!.length}",
-              Colors.orange.shade400,
-              "medium",
-              4,
-            ),
-            _difficultyButton(
-              "🌸 Hard (5x5) - ${solvedPuzzles["hard"]?.length ?? 0}/${puzzleImages["hard"]!.length}",
-              Colors.red.shade400,
-              "hard",
-              5,
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,0 +1,119 @@
+BACKEND SETUP (Flask + MongoDB)
+Step 1: Open Command Prompt
+Press Win + R, type cmd, and hit Enter.
+
+Step 2: Move to the Backend Folder
+Use the cd command to go inside your backend folder where app.py and requirements.txt are located.
+
+Example:
+
+bash
+Copy code
+cd path\to\your\project\backend\app
+📍 Note:
+Inside this folder, you must see:
+
+app.py
+
+requirements.txt
+
+Step 3: Install Python Dependencies
+Run the following command:
+
+bash
+Copy code
+pip install -r requirements.txt
+This installs all the required Python packages such as Flask, Flask-CORS, and PyMongo.
+
+🧩 3️⃣ RUNNING THE SERVERS
+You need to open three Command Prompt windows every time you want to start the system.
+
+🪟 CMD 1 → Start MongoDB Server
+Run:
+
+bash
+Copy code
+"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
+You’ll see:
+
+nginx
+Copy code
+waiting for connections on port 27017
+✅ Keep this window open. Don’t close it.
+
+🪟 CMD 2 → Start Flask Server
+In the second Command Prompt:
+
+bash
+Copy code
+cd path\to\your\project\backend\app
+python app.py
+You’ll see something like:
+
+nginx
+Copy code
+Running on http://127.0.0.1:5000/
+✅ Keep this window open as well. This runs the backend.
+
+🪟 CMD 3 → Access MongoDB Database (optional)
+If you want to check or modify database records manually:
+
+bash
+Copy code
+"C:\Program Files\MongoDB\Server\8.0\bin\mongo.exe"
+This opens the Mongo shell where you can run database commands such as:
+
+js
+Copy code
+use your_database_name
+db.users.find().pretty()
+FRONTEND SETUP (Flutter App)
+Step 1: Open the Project in VS Code
+
+Open the Flutter project folder (not the backend).
+
+You should see pubspec.yaml and lib folder.
+
+Step 2: Get All Flutter Dependencies
+
+Run in VS Code terminal:
+
+flutter pub get
+
+Step 3: Run the Flutter App
+
+Make sure the backend is already running, then run:
+
+flutter run
+
+
+or press ▶️ Run Without Debugging (Ctrl + F5)
+
+Future Usage — Whenever You Need to Access or Use the Database
+Every time you or your friend want to run the project and connect to the database,
+you will need three CMD windows:
+
+ 1️⃣ Flask Server CMD
+Copy code
+cd path\to\project_folder\backend\app
+python app.py
+ 2️⃣ MongoDB Server CMD
+Copy code
+"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
+(Change 8.0 to 4.2 if you’re using the older version.)
+
+waiting for connections on port 27017
+✅ Keep this window open. Don’t close it.
+
+ 3️⃣ Mongo Shell CMD
+Copy code
+"C:\Program Files\MongoDB\Server\8.0\bin\mongo.exe"
+
+use your_database_name
+db.users.find().pretty()
+
+This setup ensures:
+
+The Flask backend can communicate with the MongoDB database.
+
+You can inspect or manage the database directly if needed.

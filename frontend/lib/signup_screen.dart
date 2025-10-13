@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,25 +17,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
+  // Function to handle user signup and send data to Flask backend
   Future<void> _signUp(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
-      await prefs.setString('username', _nameController.text);
+      final String name = _nameController.text;
+      final String email = _emailController.text;
+      final String password = _passwordController.text;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signed up successfully!')),
-      );
+      // Use the correct URL based on the environment (emulator, real device, etc.)
+      final String url =
+          'http://localhost:5000/register'; // Update URL if using emulator or real device
 
-      Navigator.pushReplacementNamed(context, '/home');
+      print("Attempting to sign up with: $name, $email"); // Debugging log
+      print("Sending POST request to: http://localhost:5000/register");
+      try {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'name': name,
+            'email': email,
+            'password': password,
+          }),
+        );
+
+        // Log the response to check the status code and body
+        print('Response Status: ${response.statusCode}');
+        print('Response Body: ${response.body}');
+
+        if (response.statusCode == 201) {
+          // Success: User registered
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isLoggedIn', true);
+          await prefs.setString('username', name);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Signed up successfully!')),
+          );
+
+          Navigator.pushReplacementNamed(context, '/login');
+        } else {
+          // Failed: Show error message from backend response
+          final Map<String, dynamic> resBody = jsonDecode(response.body);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('Error: ${resBody['error'] ?? 'Unknown error'}')),
+          );
+        }
+      } catch (e) {
+        // Network or other error
+        print("Error during signup: $e"); // Debugging log
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to connect to server: $e')),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-        final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
@@ -68,7 +115,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     labelText: 'Full Name',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) => value!.isEmpty ? 'Enter your name' : null,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter your name' : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -78,7 +126,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) => value!.contains('@') ? null : 'Enter valid email',
+                  validator: (value) =>
+                      value!.contains('@') ? null : 'Enter valid email',
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -88,7 +137,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) => value!.length < 6 ? 'Minimum 6 characters' : null,
+                  validator: (value) =>
+                      value!.length < 6 ? 'Minimum 6 characters' : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(

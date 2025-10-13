@@ -1,9 +1,9 @@
 // NO changes in import section
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter/material.dart';
 
 class BubbleGameScreen extends StatefulWidget {
   const BubbleGameScreen({super.key});
@@ -12,11 +12,21 @@ class BubbleGameScreen extends StatefulWidget {
   State<BubbleGameScreen> createState() => _BubbleGameScreenState();
 }
 
-class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProviderStateMixin {
+class _BubbleGameScreenState extends State<BubbleGameScreen>
+    with TickerProviderStateMixin {
   List<String> thoughts = [
-    'stress', 'tired', 'overthinking', 'sad',
-    'mood swings', 'self doubt', 'anxiety', 'fear',
-    'comparison', 'regret', 'doubt', 'hopelessness',
+    'stress',
+    'tired',
+    'overthinking',
+    'sad',
+    'mood swings',
+    'self doubt',
+    'anxiety',
+    'fear',
+    'comparison',
+    'regret',
+    'doubt',
+    'hopelessness',
   ];
 
   List<String> tapped = [];
@@ -29,7 +39,7 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
   int timeLeft = 30;
 
   final AudioPlayer player = AudioPlayer();
-  final AssetsAudioPlayer bgPlayer = AssetsAudioPlayer();
+  final AudioPlayer bgPlayer = AudioPlayer(); // replaced AssetsAudioPlayer
   final List<String> quotes = [
     "You're stronger than you think.",
     "Peace begins with a single breath.",
@@ -60,14 +70,10 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
     }
   }
 
-  void playBackgroundMusic() {
-    bgPlayer.open(
-      Audio("assets/bubble_game/sounds/calm_bg.mp3"),
-      loopMode: LoopMode.single,
-      showNotification: false,
-      autoStart: true,
-      volume: isMuted ? 0 : 0.4,
-    );
+  void playBackgroundMusic() async {
+    await bgPlayer.setReleaseMode(ReleaseMode.loop);
+    await bgPlayer.setVolume(isMuted ? 0 : 0.4);
+    await bgPlayer.play(AssetSource('bubble_game/sounds/calm_bg.mp3'));
   }
 
   void stopBackgroundMusic() {
@@ -104,7 +110,7 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
   void resumeGame() {
     setState(() {
       isPaused = false;
-      bgPlayer.play();
+      bgPlayer.resume();
       for (var b in bubbleStates) {
         b.resumeBubble();
       }
@@ -212,39 +218,38 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
     const int thoughtPoints = 10;
     const int distractionPenalty = 5;
 
-   if (distractionWords.contains(word)) {
-  setState(() {
-    score = max(0, score - distractionPenalty);
-  });
+    if (distractionWords.contains(word)) {
+      setState(() {
+        score = max(0, score - distractionPenalty);
+      });
 
-  // Instead of canceling, just pause
-  isPaused = true;
-  bgPlayer.pause();
-  timer.cancel(); // <- optional, but you can restart later
+      // Instead of canceling, just pause
+      isPaused = true;
+      bgPlayer.pause();
+      timer.cancel(); // <- optional, but you can restart later
 
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => AlertDialog(
-      backgroundColor: Colors.purple.shade50,
-      title: const Text("🌀 Distraction!"),
-      content: const Text(
-        "Oops! That was a distraction bubble.\nYou lost 5 points.\nBreathe & try again.",
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            resetGame(); // restarts timer + music cleanly
-          },
-          child: const Text("Play Again"),
-        )
-      ],
-    ),
-  );
-  return;
-}
-
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => AlertDialog(
+          backgroundColor: Colors.purple.shade50,
+          title: const Text("🌀 Distraction!"),
+          content: const Text(
+            "Oops! That was a distraction bubble.\nYou lost 5 points.\nBreathe & try again.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                resetGame(); // restarts timer + music cleanly
+              },
+              child: const Text("Play Again"),
+            )
+          ],
+        ),
+      );
+      return;
+    }
 
     setState(() {
       tapped.add(word); // bubble disappears
@@ -292,6 +297,9 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
     );
   }
 
+// --- rest of your game UI code unchanged ---
+// --- BubbleWidget and buildGameUI/buildGameOverScreen remain the same ---
+
   Widget buildGameUI() {
     return Stack(
       children: [
@@ -307,88 +315,89 @@ class _BubbleGameScreenState extends State<BubbleGameScreen> with TickerProvider
         }).toList(),
 
         // Top Bar
-       // Top Bar with bold text & icons, no background box
+        // Top Bar with bold text & icons, no background box
 // Top Bar with softer bold & colored icons
-Positioned(
-  top: 0,
-  left: 0,
-  right: 0,
-  child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Back button in dark pink
-        IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.pink[800], size: 28),
-          onPressed: () {
-            timer.cancel();
-            stopBackgroundMusic();
-            Navigator.pop(context);
-          },
-        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Back button in dark pink
+                IconButton(
+                  icon:
+                      Icon(Icons.arrow_back, color: Colors.pink[800], size: 28),
+                  onPressed: () {
+                    timer.cancel();
+                    stopBackgroundMusic();
+                    Navigator.pop(context);
+                  },
+                ),
 
-        // Timer & Score
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "🕒 $timeLeft sec",
-              style: TextStyle(
-                color: Colors.pink[900],
-                fontWeight: FontWeight.w600, // slightly less bold
-                fontSize: 16,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(0.5, 0.5),
-                    blurRadius: 1,
-                    color: Colors.black26,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "🎯 $score",
-              style: TextStyle(
-                color: Colors.pink[900],
-                fontWeight: FontWeight.w600, // slightly less bold
-                fontSize: 16,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(0.5, 0.5),
-                    blurRadius: 1,
-                    color: Colors.black26,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                // Timer & Score
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "🕒 $timeLeft sec",
+                      style: TextStyle(
+                        color: Colors.pink[900],
+                        fontWeight: FontWeight.w600, // slightly less bold
+                        fontSize: 16,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0.5, 0.5),
+                            blurRadius: 1,
+                            color: Colors.black26,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "🎯 $score",
+                      style: TextStyle(
+                        color: Colors.pink[900],
+                        fontWeight: FontWeight.w600, // slightly less bold
+                        fontSize: 16,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0.5, 0.5),
+                            blurRadius: 1,
+                            color: Colors.black26,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
 
-        // Sound & Pause buttons
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                isMuted ? Icons.volume_off : Icons.volume_up,
-                color: Colors.pink[800],
-                size: 28,
-              ),
-              onPressed: toggleSound,
+                // Sound & Pause buttons
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        isMuted ? Icons.volume_off : Icons.volume_up,
+                        color: Colors.pink[800],
+                        size: 28,
+                      ),
+                      onPressed: toggleSound,
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: Icon(Icons.pause_circle,
+                          color: Colors.pink[800], size: 30),
+                      onPressed: pauseGame,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: Icon(Icons.pause_circle, color: Colors.pink[800], size: 30),
-              onPressed: pauseGame,
-            ),
-          ],
+          ),
         ),
-      ],
-    ),
-  ),
-),
-
 
         // Reset button
         Align(
@@ -399,7 +408,8 @@ Positioned(
               onPressed: resetGame,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 255, 204, 204),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
               ),
               child: const Text(
                 "Reset",
@@ -420,21 +430,33 @@ Positioned(
         children: [
           const Text(
             "🎉 Great Job!",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.black),
+            style: TextStyle(
+                fontSize: 24, fontWeight: FontWeight.w700, color: Colors.black),
           ),
           const SizedBox(height: 12),
           Text("You cleared ${tapped.length} thoughts.",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromARGB(179, 0, 0, 0))),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Color.fromARGB(179, 0, 0, 0))),
           const SizedBox(height: 20),
-          Text(randomQuote, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w700, color: Color.fromARGB(179, 0, 0, 0))),
+          Text(randomQuote,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w700,
+                  color: Color.fromARGB(179, 0, 0, 0))),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: resetGame,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green.shade100,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
             ),
-            child: const Text("Play Again", style: TextStyle(fontWeight: FontWeight.w700)),
+            child: const Text("Play Again",
+                style: TextStyle(fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -463,7 +485,8 @@ class BubbleWidget extends StatefulWidget {
   BubbleWidgetState createState() => BubbleWidgetState();
 }
 
-class BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderStateMixin {
+class BubbleWidgetState extends State<BubbleWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late double top;
   late double left;
@@ -476,9 +499,10 @@ class BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSta
   void initState() {
     super.initState();
 
-    _controller = AnimationController(vsync: this, duration: const Duration(hours: 1))
-      ..addListener(updatePosition)
-      ..forward();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(hours: 1))
+          ..addListener(updatePosition)
+          ..forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final screenSize = MediaQuery.of(context).size;
@@ -490,8 +514,10 @@ class BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSta
       const double minSpeed = 0.8;
       const double maxSpeed = 1.8;
 
-      dx = (random.nextDouble() * (maxSpeed - minSpeed) + minSpeed) * (random.nextBool() ? 1 : -1);
-      dy = (random.nextDouble() * (maxSpeed - minSpeed) + minSpeed) * (random.nextBool() ? 1 : -1);
+      dx = (random.nextDouble() * (maxSpeed - minSpeed) + minSpeed) *
+          (random.nextBool() ? 1 : -1);
+      dy = (random.nextDouble() * (maxSpeed - minSpeed) + minSpeed) *
+          (random.nextBool() ? 1 : -1);
 
       widget.registerState?.call(this);
     });
