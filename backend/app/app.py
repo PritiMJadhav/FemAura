@@ -3,6 +3,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 import bcrypt
 
+app = Flask(__name__)
 CORS(app, origins=["http://localhost:65315", "https://femaura.onrender.com"])
 
 client = MongoClient('mongodb+srv://anujapillai2005:abcd@cluster0.mq8wgu9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
