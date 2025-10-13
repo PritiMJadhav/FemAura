@@ -5,30 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c27b34f-4f2f-44be-8535-c0a8ed2fb76a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/FPFemAura.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/deviceManager.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FemAura.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/android/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/EditProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/EditProfile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/lib/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/period_tracker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/period_tracker.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/profile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/screens/bubble_game/game_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/screens/bubble_game/game_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/screens/main_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/screens/main_menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/screens/puzzle_game/puzzle_game.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/screens/puzzle_game/puzzle_game.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/screens/puzzle_game/puzzle_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/screens/puzzle_game/puzzle_home.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/lib/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/signup_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,5 +86,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Deploy test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deploy test" />
   </component>
 </project>

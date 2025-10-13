@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       // Use the correct URL based on the environment (emulator, real device, etc.)
       final String url =
-          'http://localhost:5000/register'; // Update URL if using emulator or real device
+          'https://femaura.onrender.com/register'; // Update URL if using emulator or real device
 
       print("Attempting to sign up with: $name, $email"); // Debugging log
       print("Sending POST request to: http://localhost:5000/register");
