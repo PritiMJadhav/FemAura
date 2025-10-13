@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +17,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  final String backendUrl = "http://127.0.0.1:5000"; // 👈 Change if needed
+  final String backendUrl =
+      "https://femaura.onrender.com"; // 👈 Change if needed
 
   @override
   void initState() {
@@ -116,7 +118,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black87),
+                        icon:
+                            const Icon(Icons.arrow_back, color: Colors.black87),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Expanded(
@@ -176,10 +179,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     controller: _emailController,
                     label: "Email",
                     keyboardType: TextInputType.emailAddress,
-                    validator: (val) =>
-                        val != null && val.contains("@")
-                            ? null
-                            : "Enter valid email",
+                    validator: (val) => val != null && val.contains("@")
+                        ? null
+                        : "Enter valid email",
                   ),
                   const SizedBox(height: 40),
                   SizedBox(

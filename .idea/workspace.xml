@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c27b34f-4f2f-44be-8535-c0a8ed2fb76a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/lib/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/signup_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+    <list default="true" id="7c27b34f-4f2f-44be-8535-c0a8ed2fb76a" name="Changes" comment="deploy test #3">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/lib/EditProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/lib/EditProfile.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +72,23 @@
       <option name="presentableId" value="Default" />
       <updated>1760332122367</updated>
     </task>
+    <task id="LOCAL-00001" summary="deploy test #2">
+      <option name="closed" value="true" />
+      <created>1760391664160</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760391664160</updated>
+    </task>
+    <task id="LOCAL-00002" summary="deploy test #3">
+      <option name="closed" value="true" />
+      <created>1760391867270</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760391867270</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -89,6 +104,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Deploy test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deploy test" />
+    <MESSAGE value="deploy test #2" />
+    <MESSAGE value="deploy test #3" />
+    <option name="LAST_COMMIT_MESSAGE" value="deploy test #3" />
   </component>
 </project>
